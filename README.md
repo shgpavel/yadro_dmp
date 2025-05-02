@@ -1,39 +1,45 @@
-## test_assignment
+# yadro\_dmp
 
-### Build
-<pre><code class="shell">   make</code></pre>
+Make sure you have basic kernel devkit e.g.
+linux-headers, working CC (same as your KCC)
+## build
+    make
 
-### Install
-<pre><code class="shell">#  insmod dmp.ko</code></pre>
+## install
+    #  insmod dmp.ko
 
+## test
 
-### Test
+Create the example device (you must define SIZE e.g. 1000) and proxy device by doing
 
-First create the example device and proxy device by doing
-
-<pre><code class="shell">#  dmsetup create zero1 --table "0 _SIZE_ zero" # You should define the _SIZE_</code></pre>
-<pre><code class="shell">#  dmsetup create dmp1  --table "0 _SIZE_ dmp /dev/mapper/zero1"</code></pre>
+    #  dmsetup create zero1 --table "0 1000 zero"
+    #  dmsetup create dmp1  --table "0 1000 dmp /dev/mapper/zero1"
 
 Then make sure everything was successfully created with
-<pre><code class="shell">#  dmsetup ls</code></pre>
-Or
-<pre><code class="shell">$  ls -al /dev/mapper/*</code></pre>
 
-After try to read and write to a proxy device
-<pre><code class="shell">#  dd if=/dev/random of=/dev/mapper/dmp1 bs=4k count=1</code></pre>
-<pre><code class="shell">#  dd of=/dev/null if=/dev/mapper/dmp1 bs=4k count=1</code></pre>
+    #  dmsetup ls
+OR
 
-For statistics
-<pre><code class="shell">#  cat /sys/module/dmp/stat/volumes</code></pre>
+    $  ls -al /dev/mapper/*
 
+If everything is OK try to read and write to a proxy device
+    
+    #  dd if=/dev/random of=/dev/mapper/dmp1 bs=4k count=1
+    #  dd of=/dev/null if=/dev/mapper/dmp1 bs=4k count=1
 
-### Remove
-<pre><code class="shell">First you need to remove created devices, so run
-#  dmsetup remove dmp1 zero1
+Statistics can be accesed via sysfs
+    
+    #  cat /sys/module/dmp/stat_<devname>/volumes
+
+## remove
+First you need to remove created devices, so run
+    
+    #  dmsetup remove dmp1 zero1
 
 Then unload the module
-#  rmmod dmp
+    
+    #  rmmod dmp
 
 And clean src directory
-make clean
-</code></pre>
+    
+    make clean

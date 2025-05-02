@@ -1,0 +1,4 @@
+CompileFlags:
+  Add: 
+    - -I/usr/src/linux/include
+    - -D__KERNEL__
