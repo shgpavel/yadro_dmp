@@ -6,6 +6,7 @@ linux-headers, working CC (same as your KCC)
     make
 
 ## install
+    #  modprobe dm-mod
     #  insmod dmp.ko
 
 ## test
